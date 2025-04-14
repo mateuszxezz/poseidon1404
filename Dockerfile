@@ -30,4 +30,5 @@ COPY .docker/render-nginx/default.conf /etc/nginx/conf.d/default.conf
 # Dá permissão
 RUN chown -R www-data:www-data /var/www
 
-CMD php artisan migrate --force && php-fpm
+CMD php artisan serve --host=0.0.0.0 --port=8080
+
