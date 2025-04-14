@@ -4,6 +4,6 @@ services:
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    buildCommand: ""
+    buildCommand: "base64:nVvb4GqPOJx9KNMsIMWA384TnKX0gXiPKO45pG1Pqt0="
     startCommand: php artisan serve --host=0.0.0.0 --port=10000
     healthCheckPath: /
