@@ -1,6 +1,5 @@
 FROM php:8.2-fpm
 
-# Instala dependências
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpng-dev \
@@ -13,12 +12,12 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
+    libpq-dev \                      # <- Adiciona isso
+    && docker-php-ext-install pdo pdo_pgsql \  # <- E isso
     && docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath
 
-# Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Cria diretório do app
 WORKDIR /var/www
 
 COPY . .
@@ -27,8 +26,6 @@ RUN composer install --optimize-autoloader --no-dev
 
 COPY .docker/render-nginx/default.conf /etc/nginx/conf.d/default.conf
 
-# Dá permissão
 RUN chown -R www-data:www-data /var/www
 
 CMD php artisan serve --host=0.0.0.0 --port=8080
-
